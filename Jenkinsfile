@@ -55,14 +55,7 @@ pipeline {
 		stage('EKS Deployment') {
             steps {
 			  
-			  
-			   
-                  withAWS(credentials:'aws-credentials') {
-                                   
-                   sh "aws eks update-kubeconfig --name $eksCluster --region $region"
-                   
-                   sh "echo $eksCulster       $region"
-                    
+		                                    
                     script{
 					
                     	sh "kubectl apply -f maven-web-app-deploy.yml"
@@ -70,7 +63,7 @@ pipeline {
 					}
 			  
 			   
-			   }
+			   
             }
         }
 	}
