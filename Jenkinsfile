@@ -66,7 +66,7 @@ pipeline {
                     
                     script{
 					
-                    	sh "kubectl apply -f k8s-spring-boot-deployment.yml"
+                    	sh "kubectl apply -f maven-web-app-deploy.yml"
                         sh "sleep 20s"
 					}
 			  
