@@ -3,6 +3,9 @@ def region="ap-south-1"
 
 pipeline {
     agent any
+	tools {
+        maven "maven"
+    }
     stages {
         stage('Git Clone') {
             steps {
@@ -13,11 +16,11 @@ pipeline {
 			   }
             }
         }
-        stage('Gradle Build') {
+        stage('Build') {
             steps {
 			   script {
 			   
-               sh "./gradlew build"
+               sh 'mvn -B -DskipTests clean package'
 			   
 			   }
             }
