@@ -8,7 +8,7 @@ pipeline {
             steps {
 			   script {
 			   
-               git branch: 'main', url: 'https://github.com/Bujji369/k8s-jenkins-aws.git'
+               git 'https://github.com/Bujji369/web-app.git'
 			   
 			   }
             }
