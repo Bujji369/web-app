@@ -1,5 +1,7 @@
 def eksCluster="my-eks-cluster"
 def region="ap-south-1"
+def artifactName = "${env.BUILD_NUMBER}"
+
 
 pipeline {
     agent any
@@ -31,7 +33,7 @@ pipeline {
 			   
                sh "docker version"
 			   sh "cat Dockerfile"
-               sh "docker build -t srirammani/sriram369:mani-ram ." 
+               sh "docker build -t srirammani/sriram369:mani-ram-${artifactName} ." 
                sh "docker images"
 			   
 			   }
@@ -46,7 +48,7 @@ pipeline {
                     sh "docker login -u srirammani -p ${DOCKERHUB}"
                   }
           
-                  sh "docker push srirammani/sriram369:mani-ram"
+                  sh "docker push srirammani/sriram369:mani-ram-${artifactName}"
 			   
 			   }
             }
