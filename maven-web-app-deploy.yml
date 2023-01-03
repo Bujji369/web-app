@@ -18,7 +18,7 @@ spec:
   spec: 
     containers:
     - name: webappcontainer
-      image: srirammani/sriram369:mani-ram
+      image: srirammani/sriram369:mani-ram-${artifactName}
       ports:
       - containerPort: 8080
 ---
