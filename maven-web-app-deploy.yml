@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
- name: mavenwebappdeployment
+ name: webappdeployment
 spec:
  replicas: 1
  strategy: 
@@ -17,7 +17,7 @@ spec:
      app: mavenwebapp	 
   spec: 
     containers:
-    - name: mavenwebappcontainer
+    - name: webappcontainer
       image: srirammani/sriram369:mani-ram
       ports:
       - containerPort: 8080
