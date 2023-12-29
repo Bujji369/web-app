@@ -40,7 +40,7 @@ pipeline {
                 withAWS(credentials: 'aws_Credentials_Id', region: '${region}') {
                   script {
                     sh ('aws eks update-kubeconfig --name ${eksCluster} --region ${region}')
-                    sh "kubectl apply -f eks-deploy-k8s.yaml"
+                    sh "kubectl apply -f maven-web-app-deploy.yml"
 		    sh "sleep 20s"
                 }
                 }
