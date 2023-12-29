@@ -12,6 +12,11 @@ pipeline {
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Bujji369/web-app.git']]])
             }
         }
+	stage('compile') {
+            steps {
+                sh 'mvn -B -DskipTests clean compile'
+            }
+        }
         stage('Build Jar') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
