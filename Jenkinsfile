@@ -17,16 +17,16 @@ pipeline {
                 sh 'mvn -B -DskipTests clean compile'
             }
         }
-        stage('Build Jar') {
+        stage('Build') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                sh 'mvn clean package'
             }
         }
         stage('Docker Image Build') {
             steps {
                 sh "docker build -t srirammani/k8s_images:devlopment-${artifactName} ."
         }
-        stage('image upload DockerHub') {
+        stage('Image upload DockerHub') {
             steps {
 		script {
 			   
