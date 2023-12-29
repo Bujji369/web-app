@@ -1,73 +1,50 @@
 def eksCluster="my-eks-cluster"
 def region="ap-south-1"
 def artifactName = "${env.BUILD_NUMBER}"
-
-
 pipeline {
-    agent any
-	tools {
-        maven "maven"
+    tools {
+        maven 'Maven3'
     }
+    agent any
     stages {
-        stage('Git Clone') {
+        stage('Checkout') {
             steps {
-			   script {
-			   
-               git 'https://github.com/Bujji369/web-app.git'
-			   
-			   }
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Bujji369/web-app.git']]])
             }
         }
-        stage('Maven Build') {
+        stage('Build Jar') {
             steps {
-			   script {
-			   
-               sh 'mvn -B -DskipTests clean package'
-			   
-			   }
+                sh 'mvn -B -DskipTests clean package'
             }
         }
-		stage('Docker image build') {
+        stage('Docker Image Build') {
             steps {
-			   script {
-			   
-               sh "docker version"
-			   sh "cat Dockerfile"
-               sh "docker build -t srirammani/sriram369:mani-ram-${artifactName} ." 
-               sh "docker images"
-			   
-			   }
-            }
+                sh "docker build -t srirammani/k8s_images:devlopment-${artifactName} ."
         }
-		stage('image upload DockerHub') {
+        stage('image upload DockerHub') {
             steps {
-			   script {
+		script {
 			   
-                  withCredentials([string(credentialsId: 'DOCKER-HUB-CREDENTIALS', variable: 'DOCKERHUB')]) {
+                    withCredentials([string(credentialsId: 'docker_hub_Id', variable: 'DOCKERHUB')]) {
             
                     sh "docker login -u srirammani -p ${DOCKERHUB}"
                   }
           
-                  sh "docker push srirammani/sriram369:mani-ram-${artifactName}"
+                  sh "docker push srirammani/k8s_images:devlopment-${artifactName}"
 			   
-			   }
+		}
             }
-        }
-		
-		stage('EKS Deployment') {
-            steps {
-			  
-		                                    
-                    script{
-					
-                    	sh "kubectl apply -f maven-web-app-deploy.yml"
-                        sh "sleep 20s"
-					}
-			  
-			   
-			   
-            }
-        }
 	}
-	
+        stage('Integrate Jenkins with EKS Cluster and Deploy App') {
+            steps {
+                withAWS(credentials: 'aws_Credentials_Id', region: '${region}') {
+                  script {
+                    sh ('aws eks update-kubeconfig --name ${eksCluster} --region ${region}')
+                    sh "kubectl apply -f eks-deploy-k8s.yaml"
+		    sh "sleep 20s"
+                }
+                }
+        }
+    }
+    }
 }
