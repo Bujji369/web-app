@@ -7,7 +7,7 @@ pipeline {
     }
     agent any
      /* environment {
-        NEW_IMAGE_NAME = "srirammani/k8s_images:devlopment-${artifactName}"
+        NEW_IMAGE_NAME = "srirammani/k8s_images:dev-${artifactName}"
         YAML_FILE_PATH = "sample-webapp.yml" */
 
     stages {
@@ -32,7 +32,7 @@ pipeline {
         }
         stage('Docker Image Build') {
             steps {
-                sh "docker build -t srirammani/k8s_images:devlopment-${artifactName} ."
+                sh "docker build -t srirammani/k8s_images:dev-${artifactName} ."
          }
         }
         stage('Image upload DockerHub') {
@@ -45,7 +45,7 @@ pipeline {
 		    sh "sleep 20s"
 		    }
           
-                  sh "docker push srirammani/k8s_images:devlopment-${artifactName}"	    
+                  sh "docker push srirammani/k8s_images:dev-${artifactName}"	    
 			   
 		}
             }
@@ -70,7 +70,7 @@ pipeline {
 		    
                 withAWS(credentials: 'aws_Credentials_Id', region: '${region}') {
                   script {
-		    sh "cat sample-webapp.yml"
+		    sh "cat sample-webapp.yml" 
                     sh "aws eks update-kubeconfig --region ap-south-1 --name dev-eks-cluster"
 			  
                     sh "kubectl apply -f sample-webapp.yml --validate=false"
