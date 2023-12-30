@@ -18,7 +18,7 @@ spec:
   spec: 
     containers:
     - name: webappcontainer
-      image: srirammani/k8s_images:devlopment-4
+      image: srirammani/k8s_images:devlopment-5
       ports:
       - containerPort: 8080
 ---
