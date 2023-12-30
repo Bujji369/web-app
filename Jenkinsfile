@@ -72,7 +72,7 @@ pipeline {
                   script {
 		    sh "cat sample-webapp.yml"
                     sh "sleep 20s"
-                    sh "kubectl apply -f sample-webapp.yml"
+                    sh "kubectl apply -f sample-webapp.yml --validate=false"
 		
                 }
                 }
