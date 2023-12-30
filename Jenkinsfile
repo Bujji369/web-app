@@ -32,7 +32,7 @@ pipeline {
         }
         stage('Docker Image Build') {
             steps {
-                sh "docker build -t srirammani/k8s_images:dev-${artifactName} ."
+                sh "docker build -t srirammani/k8s_images:qa-${artifactName} ."
          }
         }
         stage('Image upload DockerHub') {
@@ -70,10 +70,10 @@ pipeline {
 		    
                 withAWS(credentials: 'aws_Credentials_Id', region: '${region}') {
                   script {
-		    sh "cat sample-webapp.yml" 
+		    sh "cat test.yml" 
                     sh "aws eks update-kubeconfig --region ap-south-1 --name dev-eks-cluster"
 			  
-                    sh "kubectl apply -f sample-webapp.yml --validate=false"
+                    sh "kubectl apply -f test.yml"
 		
                 }
                 }
